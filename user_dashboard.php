@@ -10,9 +10,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'user') {
 <html lang="en">
 <head>
     <title>User Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome, <?= $_SESSION['username'] ?>!</h1>
-    <a href="scan_face.php">Start Face Recognition</a>
+    <div class="dashboard-container">
+        <h1>Welcome, <?= $_SESSION['username'] ?>!</h1>
+        <button onclick="location.href='scan_face.php'">Start Face Recognition</button>
+        <button class="logout-button" onclick="location.href='logout.php'">Logout</button>
+    </div>
 </body>
 </html>

@@ -4,7 +4,7 @@ include 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
-    $password = $_POST['password']  ;
+    $password = $_POST['password'];
 
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     $stmt->bind_param("ss", $username, $password);
@@ -24,7 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit;
     } else {
-        echo "Invalid credentials!";
+        // Redirect to login.html with error message if credentials are invalid
+        $error = "Invalid username or password!";
+        header("Location: index.php?error=" . urlencode($error));
+        exit;
     }
 }
 ?>

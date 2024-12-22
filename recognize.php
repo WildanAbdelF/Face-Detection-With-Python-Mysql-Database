@@ -16,6 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $output = shell_exec($command);
     $user_info = json_decode($output, true);
 
-    echo json_encode($user_info);
+    // Ambil data terbaru dari tabel detection_history
+    $sql = "SELECT * FROM detection_history ORDER BY id DESC LIMIT 1";
+    $result = $conn->query($sql);
+    $latest_data = $result->fetch_assoc();
+
+    echo json_encode([
+        'user_info' => $user_info,
+        'latest_data' => $latest_data
+    ]);
 }
 ?>

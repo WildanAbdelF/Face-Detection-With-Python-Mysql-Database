@@ -20,7 +20,7 @@ face_locations = face_recognition.face_locations(rgb_img)
 face_encodings = face_recognition.face_encodings(rgb_img, face_locations)
 
 user_info = {"name": "Unknown", "nim": "", "alamat": "", "email": "", "phone": ""}
-for face_encoding in face_encodings:
+for face_encoding, face_location in zip(face_encodings, face_locations):
     matches = face_recognition.compare_faces(encodings, face_encoding)
     if True in matches:
         match_index = matches.index(True)
@@ -45,4 +45,14 @@ for face_encoding in face_encodings:
         cursor.close()
         db.close()
 
+        # Gambar kotak di sekitar wajah dan tambahkan teks informasi user
+        top, right, bottom, left = face_location
+        cv2.rectangle(img, (left, top), (right, bottom), (0, 255, 0), 2)
+        cv2.putText(img, f"{user_info['name']}, {user_info['nim']}", (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+
+# Simpan gambar dengan kotak dan teks
+output_image_path = 'output.jpg'
+cv2.imwrite(output_image_path, img)
+
+# Tambahkan log untuk memeriksa user_info
 print(user_info)
